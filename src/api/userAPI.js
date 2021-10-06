@@ -83,3 +83,27 @@ export const updateUserProfile = async (userInfo) =>{
         return error?.response?.data
     }
 }
+export const updateUserPassword = async passInfo =>{
+    try {
+        const { data } = await axios.post(userApi + "/password-update", passInfo, {
+            headers: {
+                authorization: window.sessionStorage.getItem("accessJWT"),
+            },
+        });
+        return data;
+    } catch (error) {
+        console.log(error)
+        return error?.response?.data
+    }
+}
+export const resetForgetPassword = async passInfo =>{
+    try {
+        const { data } = await axios.post(userApi + "/reset-password", passInfo, {
+           
+        });
+        return data;
+    } catch (error) {
+        console.log(error)
+        return {status: "error", message: error.message}
+    }
+}

@@ -15,7 +15,7 @@ const AdminProfile = () =>{
           dispatch(fetchUser())
 
       }
-    },[dispatch, userInfo])
+    },[userInfo._id, dispatch])
     return (
         <div>
             <AdminLayout>

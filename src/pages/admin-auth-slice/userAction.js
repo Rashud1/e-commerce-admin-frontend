@@ -1,8 +1,8 @@
 import {requestPending, responseSuccess, loginSuccess,
      loginFail, userLogOutSuccess,
-      requestFail, loginAuto, autoLoginPending, profileUpdateSuccess } from "./userSlice";
-import { createUser, loginUser, verifyNewUser, logoutUser, getUser, updateUserProfile } from "../../api/userAPI.js";
-import { getNewAccessJWT, updateNewAccessJWT } from "../../api/tokenAPI";
+      requestFail, loginAuto, autoLoginPending, resetPassResponse, profileUpdateSuccess,resetForgetPassword, passwordUpdateSuccess } from "./userSlice";
+import { createUser, loginUser, verifyNewUser, logoutUser, getUser, updateUserProfile, updateUserPassword } from "../../api/userAPI.js";
+import { getNewAccessJWT, updateNewAccessJWT, requestOtp } from "../../api/tokenAPI";
 
 
 export const userRegister = newUser => async dispatch =>{
@@ -132,5 +132,39 @@ export const updateProfileUser = (userInfo) => async dispatch =>{
         
              dispatch(profileUpdateSuccess(data))
         }
-      
+export const updatePasswordUser = passInfo => async dispatch =>{
+    dispatch(requestPending())
+    
+        const data = await updateUserPassword(passInfo);
+        if(data?.message === "jwt expired"){
+            //request for new accessJWT
+            const token = await updateNewAccessJWT()
+            if(token){
+                return dispatch(updatePasswordUser(passInfo))
+        
+            }else{
+               dispatch(userLogOut())
+            }
+            //then re call the function to refetch it.
+        }
+    
+        
+             dispatch(passwordUpdateSuccess(data))
+        }
+ export const requestPassResetOtp = email => async dispatch =>{
+ dispatch(requestPending())
+            
+const data = await requestOtp(email)
+    
+dispatch(resetPassResponse({data, email}))
+ }
+ export const resetPassword = passObj => async dispatch =>{
+ dispatch(requestPending())
+            
+const data = await resetForgetPassword(passObj)
+    
+dispatch(resetPassResponse({data}))
+ }
+              
+            
     

@@ -13,7 +13,7 @@ export const Categoryform = () => {
   const dispatch = useDispatch()
 
     const[newCat, setNewCat] = userState(initialState);
-    const {isLoading, categoryResponse, categories} = useSelector(state=> state.category)    ;
+    const {isLoading, categoryResponse, categories} = useSelector(state=> state.category);
     
 
     const handleOnChange = e =>{

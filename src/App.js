@@ -5,6 +5,7 @@ import Register from "./pages/register/Register";
 import Login  from "./pages/login/Login";
 import Dashboard  from "./pages/dashboard/Dashboard";
 import Product  from "./pages/product/Product";
+import NewProduct  from "./pages/product/NewProduct";
 import Order  from "./pages/order/Order";
 import Customer  from "./pages/customer/Customer";
 import Payment from "./pages/payments/Payment";
@@ -19,6 +20,7 @@ import { PageNotFound } from './components/page-not-found/404-PageNotFound';
 import  EmailVerification  from './pages/email-verification/EmailVerification';
 import  Category  from "./pages/category/Category";
 import AdminProfile from "./pages/admin-profile/AdminProfile";
+import ResetPassPage from './components/password-reset/ResetPassword';
 
 
 
@@ -37,8 +39,11 @@ function App () {
           <Category />
         </PrivateRoute>
 
-        <PrivateRoute path="/products">
+        <PrivateRoute exact path="/products">
           <Product />
+        </PrivateRoute>
+        <PrivateRoute exact path="/products/:slug">
+          <NewProduct />
         </PrivateRoute>
 
         <PrivateRoute path="/orders">
@@ -65,6 +70,8 @@ function App () {
         <Route path="/registration" children={<Register />}/>
      
         <Route path="/ email-verification" children={<EmailVerification />}/>
+        <Route path="/ reset-password" children={<ResetPassPage />}/>
+      
         <Route exact path="/" children={<Login />}/>
         <Route path="*" children={<PageNotFound />}/>
       </Switch>
